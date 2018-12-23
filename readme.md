@@ -1,4 +1,4 @@
-# crossviper
+# crossCobra
 PyQt5 Python IDE
 
 ![alt text](https://github.com/morten1982/crossCobra/blob/master/images/crossviper_git.png)
