@@ -1,7 +1,7 @@
 # crossCobra
 PyQt5 Python IDE
 
-![alt text](https://github.com/morten1982/crossCobra/images/crosscobra-git.png)
+![alt text](https://github.com/morten1982/crossCobra/blob/master/images/crosscobra-git.png)
 
 # Description
 A Python IDE made with PyQt5 + QScintilla.
