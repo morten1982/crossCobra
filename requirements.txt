@@ -1,0 +1,4 @@
+PyQt5>=5.11.3
+QScintilla>=2.10.8
+vulture>=1.0
+pycodestyle>=2.4.0
