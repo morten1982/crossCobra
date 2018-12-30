@@ -36,8 +36,8 @@ class Configuration():
     def getTab(self):
         return self.config['Tab']['tab']
     
-    def getFont(self):
-        return self.config['Font']['font']
+    def getFontSize(self):
+        return self.config['Size']['size']
     
     def setSystem(self, system):
         self.config['System']['system'] = system
@@ -83,8 +83,8 @@ class Configuration():
         config['Tab'] = {}
         config['Tab']['tab'] = '4'
         
-        config['Font'] = {}
-        config['Font']['font'] = '13'
+        config['Size'] = {}
+        config['Size']['size'] = '13'
         
         return config
 

@@ -4,9 +4,9 @@ import os
 from PyQt5.QtWidgets import (QApplication, QWidget, QDialog, QHBoxLayout,
                              QVBoxLayout, QGridLayout, QLabel, QLineEdit,
                              QPushButton, QMainWindow, QRadioButton,
-                             QGroupBox, QComboBox, QSpinBox, 
+                             QGroupBox, QSpinBox, 
                              QDialogButtonBox, QMessageBox, QListWidget,
-                             QListWidgetItem)
+                             QListWidgetItem, QFontDialog)
 from PyQt5.QtGui import (QFont, QColor, QPalette)
 from PyQt5.Qt import Qt
 from configuration import Configuration
@@ -131,11 +131,11 @@ class SettingsDialog(Dialog):
 
         label2 = Label('Font size:')
 
-        self.fontBox = QSpinBox()
-        self.fontBox.setMinimum(6)
-        self.fontBox.setMaximum(30)
-        font = int(self.c.getFont())
-        self.fontBox.setValue(font)
+        self.fontSizeBox = QSpinBox()
+        self.fontSizeBox.setMinimum(6)
+        self.fontSizeBox.setMaximum(30)
+        fontSize = int(self.c.getFontSize())
+        self.fontSizeBox.setValue(fontSize)
         
         label3 = WhiteLabel('Changes in this area will be appear on\nrestart or new Tab')
         vbox = QVBoxLayout()
@@ -143,7 +143,8 @@ class SettingsDialog(Dialog):
         vbox.addWidget(label1)
         vbox.addWidget(self.tabWidthBox)
         vbox.addWidget(label2)
-        vbox.addWidget(self.fontBox)
+        vbox.addWidget(self.fontSizeBox)
+
         vbox.addWidget(label3)
         
         groupBox.setLayout(vbox)
@@ -239,6 +240,7 @@ class SettingsDialog(Dialog):
         interpreterCommand = c.getInterpreter(system)
         
         return runCommand, terminalCommand, interpreterCommand
+    
 
     def close(self):
         if self.radio1.isChecked():
@@ -259,7 +261,7 @@ class SettingsDialog(Dialog):
         terminalCommand = self.terminalBox.text()
         
         tab = self.tabWidthBox.value()
-        font = self.fontBox.value()
+        fontSize = self.fontSizeBox.value()
 
         value = system
         config = self.c.setStandard()
@@ -270,7 +272,7 @@ class SettingsDialog(Dialog):
             config['Terminal']['mate'] = terminalCommand
             config['Interpreter']['mate'] = interpreterCommand
             config['Tab']['tab'] = str(tab)
-            config['Font']['font'] = str(font)
+            config['Size']['size'] = str(fontSize)
     
         elif value == 'gnome':
             config['System']['system'] = 'gnome'
@@ -278,7 +280,7 @@ class SettingsDialog(Dialog):
             config['Terminal']['gnome'] = terminalCommand
             config['Interpreter']['gnome'] = interpreterCommand
             config['Tab']['tab'] = str(tab)
-            config['Font']['font'] = str(font)
+            config['Size']['size'] = str(fontSize)
 
 
         elif value == 'kde':
@@ -287,7 +289,7 @@ class SettingsDialog(Dialog):
             config['Terminal']['kde'] = terminalCommand
             config['Interpreter']['kde'] = interpreterCommand
             config['Tab']['tab'] = str(tab)
-            config['Font']['font'] = str(font)
+            config['Size']['size'] = str(fontSize)
 
 
         elif value == 'xterm':
@@ -296,7 +298,7 @@ class SettingsDialog(Dialog):
             config['Terminal']['xterm'] = terminalCommand
             config['Interpreter']['xterm'] = interpreterCommand
             config['Tab']['tab'] = str(tab)
-            config['Font']['font'] = str(font)
+            config['Size']['size'] = str(fontSize)
 
 
         elif value == 'windows':
@@ -305,7 +307,7 @@ class SettingsDialog(Dialog):
             config['Terminal']['windows'] = terminalCommand
             config['Interpreter']['windows'] = interpreterCommand
             config['Tab']['tab'] = str(tab)
-            config['Font']['font'] = str(font)
+            config['Size']['size'] = str(fontSize)
 
 
         elif value == 'mac':
@@ -314,7 +316,7 @@ class SettingsDialog(Dialog):
             config['Terminal']['mac'] = terminalCommand
             config['Interpreter']['mac'] = interpreterCommand
             config['Tab']['tab'] = str(tab)
-            config['Font']['font'] = str(font)
+            config['Size']['size'] = str(fontSize)
 
         else:
             return
@@ -658,6 +660,7 @@ class PyCodeCheckerDialog(QDialog):
         
     def onClose(self):
         self.destroy()
+        
 
 
 class HelpDialog(QDialog):
@@ -768,7 +771,7 @@ class HelpDialog(QDialog):
         
         To use these two functions you should have installed vulture 
         and pycodestyle.
-        Use "pip3 install vulture" and "pip3 install pyspellcheck" to
+        Use "pip3 install vulture" and "pip3 install pycodestyle" to
         install these packages
         
         Crosscobra is using 

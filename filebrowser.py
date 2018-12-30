@@ -5,10 +5,9 @@ from PyQt5.QtWidgets import (QTreeView, QFileSystemModel, QSizePolicy,
 
 from PyQt5.Qt import (QDir, QSizePolicy, QPalette, Qt, QFont)
 
-from PyQt5.Qsci import QsciScintilla, QsciLexerPython, QsciAPIs
+from PyQt5.Qsci import QsciAPIs
 from PyQt5 import Qsci
 
-from PyQt5.QtCore import QThread, QEvent
 from PyQt5.Qt import Qt
 
 from codeeditor import CodeEditor
@@ -92,6 +91,7 @@ class FileBrowser(QTreeView):
         self.popMenu.addAction(deleteAction)
         self.popMenu.addSeparator()
         self.popMenu.addAction(terminalAction)
+        
         
     def openMenu(self, position):
         # -> open ContextMenu 
@@ -682,6 +682,7 @@ class FileBrowser(QTreeView):
             self.textPad.setPythonAutocomplete()
             
         self.clearSelection()
+        self.textPad.updateAutoComplete()
    
     def onRootPathChanged(self):
         self.setModel(None)

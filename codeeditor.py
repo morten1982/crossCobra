@@ -1,4 +1,5 @@
 import os
+import platform
 from PyQt5.QtWidgets import QAction
 
 from PyQt5 import Qsci
@@ -39,7 +40,7 @@ class CodeEditor(QsciScintilla):
         self.debugging = False
         
         c = Configuration()
-        self.pointSize = int(c.getFont())
+        self.pointSize = int(c.getFontSize())
         self.tabWidth = int(c.getTab())
         
         # Scrollbars
@@ -68,7 +69,13 @@ class CodeEditor(QsciScintilla):
 
         # Set the default font
         self.font = QFont()
-        self.font.setFamily('Mono')
+        
+        system = platform.system().lower()
+        if system == 'windows':
+            self.font.setFamily('Consolas')
+        else:
+            self.font.setFamily('Mono')
+        
         self.font.setFixedPitch(True)
         self.font.setPointSize(self.pointSize)
         self.setFont(self.font)
@@ -123,8 +130,6 @@ class CodeEditor(QsciScintilla):
         #self.setCaretLineVisible(False)
         #self.setCaretLineVisible(True)
         #self.setCaretLineBackgroundColor(QColor("#020202"))               
-        
-        # not too small
         self.setMinimumSize(300, 300)
         
         # get style
@@ -427,7 +432,13 @@ class CodeEditor(QsciScintilla):
     def setPythonPrintStyle(self):
         # Set None lexer
         self.font = QFont()
-        self.font.setFamily('Mono')
+        
+        system = platform.system().lower()
+        if system == 'windows':
+            self.font.setFamily('Consolas')
+        else:
+            self.font.setFamily('Mono')
+
         self.font.setFixedPitch(True)
         self.font.setPointSize(10)
         self.setFont(self.font)
@@ -462,7 +473,13 @@ class CodeEditor(QsciScintilla):
         self.unsetFold()
         
         self.font = QFont()
-        self.font.setFamily('Mono')
+
+        system = platform.system().lower()
+        if system == 'windows':
+            self.font.setFamily('Consolas')
+        else:
+            self.font.setFamily('Mono')
+
         self.font.setFixedPitch(True)
         self.font.setPointSize(self.pointSize)
 
@@ -482,7 +499,13 @@ class CodeEditor(QsciScintilla):
     def resetPythonPrintStyle(self, lexer):
         
         self.font = QFont()
-        self.font.setFamily('Mono')
+
+        system = platform.system().lower()
+        if system == 'windows':
+            self.font.setFamily('Consolas')
+        else:
+            self.font.setFamily('Mono')
+
         self.font.setFixedPitch(True)
         self.font.setPointSize(self.pointSize)
         self.setFont(self.font)

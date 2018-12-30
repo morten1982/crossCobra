@@ -82,10 +82,13 @@ class CodeView(QListWidget):
         filename = textPad.filename
         
         if filename:
-            findDeadCode = FindDeadCodeDialog(self.mainWindow, textPad, self)
-            findDeadCode.setModal(False)
-            textPad.debugging = True
-            findDeadCode.exec_()
+            try:
+                findDeadCode = FindDeadCodeDialog(self.mainWindow, textPad, self)
+                findDeadCode.setModal(False)
+                textPad.debugging = True
+                findDeadCode.exec_()
+            except Exception as e:
+                self.mainWindow.showMessage(str(e), 3000)
         else:
             self.mainWindow.statusBar.showMessage("can't find dead code without filename !", 3000)
         
@@ -103,10 +106,13 @@ class CodeView(QListWidget):
         filename = textPad.filename
         
         if filename:
-            c = PyCodeCheckerDialog(self.mainWindow, textPad, self)
-            c.setModal(False)
-            textPad.debugging = True
-            c.exec_()
+            try:
+                c = PyCodeCheckerDialog(self.mainWindow, textPad, self)
+                c.setModal(False)
+                textPad.debugging = True
+                c.exec_()
+            except Exception as e:
+                self.mainWindow.showMessage(str(e), 3000)
         else:
             self.mainWindow.statusBar.showMessage("can't check code without filename !", 3000)
         

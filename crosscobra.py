@@ -1,3 +1,5 @@
+#!/usr/local/bin/python3
+
 import sys
 import os
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget,
@@ -12,6 +14,7 @@ from PyQt5.QtPrintSupport import QPrintDialog
 from PyQt5.Qsci import QsciPrinter
 from PyQt5 import QtCore
 
+from pathlib import Path
 
 from codeeditor import CodeEditor
 from filebrowser import FileBrowser
@@ -35,8 +38,13 @@ class MainWindow(QMainWindow):
             """)
 
         
-        self.HOME = os.path.dirname(__file__)
+        path = os.path.abspath(__file__)
+        self.HOME = os.path.dirname(path) + '/'
         self.setWindowIcon(QIcon(self.HOME + 'images/crosscobra.png'))
+
+        # change to Home Path
+        os.chdir(Path.home())
+
         self.fileBrowser = None
         
         self.initUI()
@@ -48,10 +56,7 @@ class MainWindow(QMainWindow):
         
         self.addAction(helpAction)
     
-    def initUI(self):
-        #
-        #centralWidget = QWidget()
-        
+    def initUI(self):        
         self.setGeometry(300, 300, 1200, 600)
         self.setWindowTitle('CrossCobra - Python IDE')
         
@@ -70,7 +75,6 @@ class MainWindow(QMainWindow):
         self.fileBrowser = FileBrowser(self, self.textPad, self.notebook, self.codeView)
         self.textPad.fileBrowser = self.fileBrowser
 
-        
         # add widgets to splitters
         splitter1.addWidget(self.fileBrowser)
         splitter1.addWidget(self.codeView)
@@ -90,7 +94,6 @@ class MainWindow(QMainWindow):
         
         # actions
         newAction = QAction(QIcon(self.HOME + 'images/new.png'), 'New', self)    
-
 
         newAction.setShortcut('Ctrl+N')
         newAction.triggered.connect(self.new)
@@ -150,7 +153,6 @@ class MainWindow(QMainWindow):
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-    
         # make toolbar
         self.toolbar = QToolBar()
         self.toolbar.setStyleSheet('''
@@ -212,7 +214,6 @@ class MainWindow(QMainWindow):
         self.setStatusBar(self.statusBar)
         # show all
         self.show()
-        
         
     def new(self):
         editor = CodeEditor(parent=self)
