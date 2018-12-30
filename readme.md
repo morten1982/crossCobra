@@ -21,7 +21,7 @@ A Python IDE made with PyQt5 + QScintilla.
 
 # Requirements
 pip3 install PyQt5 QScintilla vulture pycodestyle
-(use either a virtual environment, ' sudo' of ' --user'. ' sudo' is not recommended)
+(use either a virtual environment, ' sudo' or ' --user'. ' sudo' is not recommended)
  
 # Run
 'python3 crosscobra.py' (or whatever you use to run Python)
