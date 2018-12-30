@@ -16,18 +16,12 @@ A Python IDE made with PyQt5 + QScintilla.
 - > Terminal window 
 - > Filebrowser included
 
-- > should be cross platform :)
+- > should be cross platform :) -> but was tested only on linux !
 
 
-# Build with
-You need "vulture" to find dead code
-- > pip3 install vulture
-
-You need "pycodestyle" to check your source code
-- > pip3 install pycodestyle
+# Requirements
+pip3 install PyQt5 QScintilla vulture pycodestyle
+(use either a virtual environment, ' sudo' of ' --user'. ' sudo' is not recommended)
  
- 
- # to do
- - > setting breakpoints with Qscintilla
- - > Debugging features
- 
+# Run
+'python3 crosscobra.py' (or whatever you use to run Python)
