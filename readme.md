@@ -13,8 +13,10 @@ A Python IDE made with PyQt5 + QScintilla.
 - > Sourcecode analyzing
 - > Find dead code (using vulture)
 - > Python Codestyle check (using pycodestyle)
-- > Terminal window 
-- > Filebrowser included
+- > Start terminal window
+- > Start Python Interpreter
+- > Filebrowser included (delete, rename .... files and folders)
+- > Setting Breakpoints and run code until breakpoint included
 
 - > should be cross platform :) -> but was tested only on linux !
 
