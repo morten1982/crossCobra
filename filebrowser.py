@@ -627,40 +627,38 @@ class FileBrowser(QTreeView):
                     self.text = f.read()
             except Exception as e:
                 self.mainWindow.statusBar.showMessage(str(e), 3000)
-                
                 self.filename = None
                 return
             
-            # debug
             if self.textPad:
             
                 if not self.textPad.filename:
                     editor = CodeEditor(self.mainWindow)
-                    editor.setText(self.text) 
                     editor.filename = filePath
                     self.notebook.newTab(editor)
-                    self.textPad = editor
                     
                     x = self.notebook.count()   # number of tabs
                     index = x - 1
                     self.notebook.setCurrentIndex(index)
                     tabName = os.path.basename(editor.filename)
                     
-                    self.notebook.setTabText(x, tabName)
                     self.textPad = editor
-                    #self.textPad.filename = filePath
+                    self.textPad.setText(self.text)
+                    self.notebook.setTabText(x, tabName)
                     
                 else:
                     editor = CodeEditor(self.mainWindow)
-                    editor.setText(self.text)
                     editor.filename = filePath
                     tabName = os.path.basename(editor.filename)
                     self.notebook.newTab(editor)
+                    
                     x = self.notebook.count()   # number of tabs
                     index = x - 1
                     self.notebook.setCurrentIndex(index)
+                    
                     self.textPad = editor
-                    #self.textPad.filename = filePath
+                    self.textPad.setText(self.text)
+                    self.notebook.setTabText(x, tabName)
            
             if not self.textPad:
                     editor = CodeEditor(self.mainWindow)
@@ -670,7 +668,6 @@ class FileBrowser(QTreeView):
                     index = x - 1
                     self.notebook.setCurrentIndex(index)
                     self.textPad = editor
-                    #self.textPad.filename = filePath
            
             # make codeView
             codeViewList = self.codeView.makeDictForCodeView(self.text)
