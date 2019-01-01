@@ -213,6 +213,7 @@ class MainWindow(QMainWindow):
         self.statusBar.addPermanentWidget(self.searchButton)
         self.setStatusBar(self.statusBar)
         # show all
+        self.textPad.setFocus()
         self.show()
         
     def new(self):

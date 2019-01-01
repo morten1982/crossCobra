@@ -1,4 +1,5 @@
 import os
+import sys
 import platform
 from PyQt5.QtWidgets import QAction
 
@@ -12,6 +13,8 @@ import re
 from runthread import RunThread
 from configuration import Configuration
 
+import random
+import time
 
 #######################################
 
@@ -74,7 +77,7 @@ class CodeEditor(QsciScintilla):
         if system == 'windows':
             self.font.setFamily('Consolas')
         else:
-            self.font.setFamily('Mono')
+            self.font.setFamily('Monospace')
         
         self.font.setFixedPitch(True)
         self.font.setPointSize(self.pointSize)
@@ -90,15 +93,14 @@ class CodeEditor(QsciScintilla):
         self.setMarginsForegroundColor(QColor("#FFFFFF"))
         
         # Margin 1 for breakpoints
-        self.setMarginType(1, QsciScintilla.SymbolMargin)
-        self.setMarginWidth(1, "00")
-        sym = QsciScintilla.Circle
-
-        self.markerDefine(sym, 1)
-
-        self.setMarginMarkerMask(0, 0b1111)
+        self.setMarginSensitivity(1, True)
+        self.markerDefine(QsciScintilla.RightArrow, 8)
+        self.setMarkerBackgroundColor(QColor('#FF0000'), 8)
         
-        handle_01 = self.markerAdd(1, 0) 
+        # variable for breakpoint
+        self.breakpoint = False
+        self.breakpointLine = None
+        
 
         # FoldingBox
         self.setFoldMarginColors(QColor('dark green'), QColor('dark green'))
@@ -160,6 +162,10 @@ class CodeEditor(QsciScintilla):
         sepAction3.setSeparator(True)
         selectAllAction = QAction("Select All", self)
         selectAllAction.triggered.connect(self.getContext)
+        sepAction4 = QAction("", self)
+        sepAction4.setSeparator(True)
+        breakpointAction = QAction("Run until Breakpoint", self)
+        breakpointAction.triggered.connect(self.breakpointContext)
         terminalAction = QAction("Open Terminal", self)
         terminalAction.triggered.connect(self.termContext)
         
@@ -172,6 +178,8 @@ class CodeEditor(QsciScintilla):
         self.addAction(sepAction2)
         self.addAction(selectAllAction)
         self.addAction(sepAction3)
+        self.addAction(breakpointAction)
+        self.addAction(sepAction4)
         self.addAction(terminalAction)
 
         # signals
@@ -207,9 +215,21 @@ class CodeEditor(QsciScintilla):
                 notebook.setTabText(index, fname)
         
     
-    def onMarginClicked(self):
-        pass
-    
+    def onMarginClicked(self, margin, line, modifiers):
+        
+        if self.markersAtLine(line) != 0:
+            self.markerDelete(line, 8)
+            self.breakpoint = False
+            self.breakpointLine = None
+            self.mainWindow.statusBar.showMessage('Breakpoint removed', 3000)
+        else:
+            if self.breakpoint == False:
+                self.markerAdd(line, 8)
+                self.breakpoint = True
+                self.breakpointLine = line + 1
+                self.mainWindow.statusBar.showMessage('Breakpoint set on line ' + \
+                                                      str(self.breakpointLine), 3000)
+        
 
     def checkPath(self, path):
         if '\\' in path:
@@ -235,6 +255,40 @@ class CodeEditor(QsciScintilla):
     def getContext(self):
         self.selectAll()
     
+    def breakpointContext(self):        
+        code = ''
+        lines = self.lines()
+        
+        c = Configuration()
+        system = c.getSystem()
+        
+        if self.breakpointLine:
+            for i in range(lines):
+                if i < self.breakpointLine:
+                    code += self.text(i)
+        
+        randomNumber = random.SystemRandom()
+        number = randomNumber.randint(0, sys.maxsize)
+        filename = 'temp_file_' + str(number) + '.py'
+        
+        try:
+            with open(filename, 'w') as f:
+                f.write(code)
+                f.close()
+                
+            command = c.getRun(system).format(filename)
+            thread = RunThread(command)
+            thread.start()
+            
+        except Exception as e:
+            print(str(e))  
+        
+        finally:
+            time.sleep(2)
+            os.remove(filename)
+        
+        
+        
     def termContext(self):
         c = Configuration()
         system = c.getSystem()
@@ -340,6 +394,11 @@ class CodeEditor(QsciScintilla):
         if e.key() == Qt.Key_Return:
         
             self.updateAutoComplete()
+        
+        if e.key() == Qt.Key_Backspace:
+            self.markerDeleteAll()
+            self.breakpoint = False
+            self.breakpointLine = None
     
     def updateCodeView(self, text=''):
         codeView = self.mainWindow.codeView
@@ -437,7 +496,7 @@ class CodeEditor(QsciScintilla):
         if system == 'windows':
             self.font.setFamily('Consolas')
         else:
-            self.font.setFamily('Mono')
+            self.font.setFamily('Monospace')
 
         self.font.setFixedPitch(True)
         self.font.setPointSize(10)
@@ -478,7 +537,7 @@ class CodeEditor(QsciScintilla):
         if system == 'windows':
             self.font.setFamily('Consolas')
         else:
-            self.font.setFamily('Mono')
+            self.font.setFamily('Monospace')
 
         self.font.setFixedPitch(True)
         self.font.setPointSize(self.pointSize)
@@ -504,7 +563,7 @@ class CodeEditor(QsciScintilla):
         if system == 'windows':
             self.font.setFamily('Consolas')
         else:
-            self.font.setFamily('Mono')
+            self.font.setFamily('Monospace')
 
         self.font.setFixedPitch(True)
         self.font.setPointSize(self.pointSize)
