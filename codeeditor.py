@@ -238,18 +238,23 @@ class CodeEditor(QsciScintilla):
     
 
     def undoContext(self):
+        self.resetBreakpoint()
         self.undo()
     
     def redoContext(self):
+        self.resetBreakpoint()
         self.redo()
 
     def cutContext(self):
+        self.resetBreakpoint()
         self.cut()
     
     def copyContext(self):
+        self.resetBreakpoint()
         self.copy()
 
     def pasteContext(self):
+        self.resetBreakpoint()
         self.paste()
 
     def getContext(self):
@@ -274,11 +279,9 @@ class CodeEditor(QsciScintilla):
         try:
             with open(filename, 'w') as f:
                 f.write(code)
-                f.close()
-                
-            command = c.getRun(system).format(filename)
-            thread = RunThread(command)
-            thread.start()
+                command = c.getRun(system).format(filename)
+                thread = RunThread(command)
+                thread.start()
             
         except Exception as e:
             print(str(e))  
@@ -286,8 +289,6 @@ class CodeEditor(QsciScintilla):
         finally:
             time.sleep(2)
             os.remove(filename)
-        
-        
         
     def termContext(self):
         c = Configuration()
@@ -396,9 +397,12 @@ class CodeEditor(QsciScintilla):
             self.updateAutoComplete()
         
         if e.key() == Qt.Key_Backspace:
-            self.markerDeleteAll()
-            self.breakpoint = False
-            self.breakpointLine = None
+            self.resetBreakpoint()
+    
+    def resetBreakpoint(self):
+        self.markerDeleteAll()
+        self.breakpoint = False
+        self.breakpointLine = None
     
     def updateCodeView(self, text=''):
         codeView = self.mainWindow.codeView
@@ -585,4 +589,3 @@ class CodeEditor(QsciScintilla):
 
         # FoldingBox
         self.setFoldMarginColors(QColor('dark green'), QColor('dark green'))
-    
