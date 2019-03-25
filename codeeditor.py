@@ -411,7 +411,7 @@ class CodeEditor(QsciScintilla):
        
     
     def updateAutoComplete(self, text=None):
-
+        self.autocomplete = QsciAPIs(self.lexer)
         if not text:
             
             firstList = []     # list to edit
