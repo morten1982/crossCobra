@@ -393,7 +393,7 @@ class CodeEditor(QsciScintilla):
         # if ENTER was hit ... :
         
         if e.key() == Qt.Key_Return:
-        
+            
             self.updateAutoComplete()
         
         if e.key() == Qt.Key_Backspace:
@@ -411,7 +411,22 @@ class CodeEditor(QsciScintilla):
        
     
     def updateAutoComplete(self, text=None):
-        self.autocomplete = QsciAPIs(self.lexer)
+        self.autocomplete = QsciAPIs(self.lexer)  # clear all
+        
+        self.keywords = self.lexer.keywords(1)
+        self.keywords = self.keywords.split(' ')
+        
+        for word in self.keywords:
+            self.autocomplete.add(word)
+        
+        self.autocomplete.add('super')
+        self.autocomplete.add('self')
+        self.autocomplete.add('__name__')
+        self.autocomplete.add('__main__')
+        self.autocomplete.add('__init__')
+        self.autocomplete.add('__str__')
+        self.autocomplete.add('__repr__')
+        
         if not text:
             
             firstList = []     # list to edit
