@@ -680,6 +680,18 @@ class FileBrowser(QTreeView):
             
         self.clearSelection()
         self.textPad.updateAutoComplete()
+        
+        # remove the '*' when opening new file ... 
+        self.removeStarAtOpen()
+    
+    def removeStarAtOpen(self):
+        notebook = self.mainWindow.notebook
+        textPad = notebook.currentWidget()
+        index = notebook.currentIndex()
+
+        if textPad.filename:
+            fname = os.path.basename(textPad.filename)
+            notebook.setTabText(index, fname)
    
     def onRootPathChanged(self):
         self.setModel(None)
