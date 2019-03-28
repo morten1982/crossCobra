@@ -58,8 +58,8 @@ class CodeEditor(QsciScintilla):
             alternate-background-color: #FFFFFF;""")
         
         # matched / unmatched brace color ...
-        self.setMatchedBraceBackgroundColor(QColor('#000000'))
-        self.setMatchedBraceForegroundColor(QColor('cyan'))
+        self.setMatchedBraceBackgroundColor(QColor('#232323'))
+        self.setMatchedBraceForegroundColor(QColor('green'))
         self.setUnmatchedBraceBackgroundColor(QColor('#000000'))
         self.setUnmatchedBraceForegroundColor(QColor('red'))
 
@@ -276,6 +276,7 @@ class CodeEditor(QsciScintilla):
         number = randomNumber.randint(0, sys.maxsize)
         filename = 'temp_file_' + str(number) + '.py'
         
+        
         try:
             with open(filename, 'w') as f:
                 f.write(code)
@@ -329,7 +330,7 @@ class CodeEditor(QsciScintilla):
         self.lexer.setColor(QColor('lightblue'), 7)   # TripleDoubleQuotedString 
         self.lexer.setColor(QColor('#ffff00'), 8)   # ClassName 
         self.lexer.setColor(QColor('#ffff66'), 9)   # FunctionMethodName 
-        self.lexer.setColor(QColor('magenta'), 10)   # Operator 
+        self.lexer.setColor(QColor('green'), 10)   # Operator 
         self.lexer.setColor(QColor('white'), 11)   # Identifier 
         self.lexer.setColor(QColor('gray'), 12)   # CommentBlock 
         self.lexer.setColor(QColor('#ff471a'), 13)   # UnclosedString 
