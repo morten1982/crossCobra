@@ -79,7 +79,7 @@ class MainWindow(QMainWindow):
         splitter1.addWidget(self.fileBrowser)
         splitter1.addWidget(self.codeView)
         w = splitter1.width()
-        splitter1.setSizes([w/2, w/2])
+        splitter1.setSizes([w//2, w//2])
         
         splitter2.addWidget(splitter1)
         splitter2.addWidget(self.notebook)
@@ -382,7 +382,7 @@ class MainWindow(QMainWindow):
     
     def onSearch(self):
         text = self.searchEdit.text()
-        if text is '':
+        if text == '':
             self.statusBar.showMessage("can't start search without word", 3000) 
             return
         else:
@@ -418,8 +418,8 @@ class MainWindow(QMainWindow):
     
     def centerOnScreen(self):
         res = QDesktopWidget().screenGeometry()
-        self.move((res.width() / 2) - (self.frameSize().width() / 2),
-                  (res.height() / 2) - (self.frameSize().height() / 2))
+        self.move((res.width() // 2) - (self.frameSize().width() // 2),
+                  (res.height() // 2) - (self.frameSize().height() // 2))
 
     def help(self):
         helpdialog = HelpDialog(self)
